@@ -388,6 +388,44 @@
         });
       }
     });
+    <!-- Instagram giriş uyarısı -->
+<div id="ig-modal" style="position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);padding:16px;font-family:sans-serif;">
+  <div style="background:#fff;max-width:360px;width:100%;border-radius:14px;padding:24px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3);">
+    <h2 style="margin:0;font-size:20px;color:#111;">Hoş geldiniz</h2>
+    <p style="margin:8px 0 0;font-size:14px;color:#666;">Devam etmek için Instagram ile giriş yapın.</p>
+    <button id="ig-login" style="margin-top:20px;width:100%;padding:11px;border:0;border-radius:8px;color:#fff;font-size:15px;cursor:pointer;background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af);">
+      Instagram ile giriş yap
+    </button>
+    <button id="ig-skip" style="margin-top:8px;width:100%;background:none;border:0;color:#888;font-size:12px;cursor:pointer;">
+      Şimdilik geç
+    </button>
+  </div>
+</div>
+
+<script>
+  var CLIENT_ID = "INSTAGRAM_APP_ID";
+  var REDIRECT_URI = "https://siteniz.com/auth/instagram";
+
+  window.addEventListener("load", function () {
+    var modal = document.getElementById("ig-modal");
+    modal.style.display = "flex"; // site açılınca göster
+
+    document.getElementById("ig-login").onclick = function () {
+      var params = new URLSearchParams({
+        client_id: CLIENT_ID,
+        redirect_uri: REDIRECT_URI,
+        response_type: "code",
+        scope: "instagram_business_basic"
+      });
+      window.location.href = "https://www.instagram.com/oauth/authorize?" + params;
+    };
+
+    document.getElementById("ig-skip").onclick = function () {
+      modal.style.display = "none";
+    };
+  });
+</script>
+
   </script>
 </body>
 </html>
